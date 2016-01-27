@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>admin</title>
+        <%= stylesheet '/css/admin.css' %>
+    </head>
+    <body id="com-admin">
+        <h1>
+            <%= link_to '/admin' => begin %>Admin<% end %>
+            &nbsp;-&nbsp;<%= link_to '/' => begin %><%= $self->app->config->{ 'domain' } %><% end %>
+            % if ( $self->session->{ auth } ) {
+                &nbsp;-&nbsp;<%= link_to '/admin/logout' => begin %>Logout<% end %>
+            % }
+        </h1>
+        <%= content %>
+    </body>
+</html>

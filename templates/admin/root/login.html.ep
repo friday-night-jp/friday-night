@@ -1,0 +1,17 @@
+% layout 'admin_wrapper';
+
+<h2>login</h2>
+
+<div id="com-content">
+    %= form_for '/admin/login' => (method => 'post') => begin
+        Name:
+        <br>
+        %= text_field 'user'
+        <br>
+        Password:
+        <br>
+        %= text_field 'password'
+        <br>
+        %= submit_button 'Login'
+    % end
+</div>
