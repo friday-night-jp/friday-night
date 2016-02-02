@@ -1,0 +1,60 @@
+% layout 'admin_wrapper';
+
+<h2>Affiliate&nbsp;&gt;&nbsp;add</h2>
+
+<div id="page-category">
+    <div class="act-link">
+        <%= link_to '/admin/affiliate' => begin %>List<% end %>
+        /
+        <%= link_to '/admin/affiliate/add' => begin %>Add<% end %>
+    </div>
+
+    % if ( $error ) {
+        <div class="com-error-message">
+            % foreach my $i ( @$error_messages ) {
+                <p><%= $i %></p>
+            % }
+        </div>
+    % }
+
+    %= form_for '/admin/affiliate/add' => ( method => 'post' ) => begin
+        <table cellspacing="1">
+            <tr>
+                <td class="gray">site_name</td>
+                <td>
+                %= text_field 'site_name'
+                </td>
+            </tr>
+            <tr>
+                <td class="gray">status</td>
+                <td>
+                <select name="status">
+                    % foreach my $i ( @{ $self->config->{ statuses } } ) {
+                        <option value="<%= $self->config->{ status }->{ $i } %>"><%= $i %></option>
+                    % }
+                </select>
+                </td>
+            </tr>
+            <tr>
+                <td class="gray">priority</td>
+                <td>
+                <select name="priority">
+                    % foreach my $i ( 1 .. 10) {
+                        <option value="<%= $i %>"><%= $i %></option>
+                    % }
+                </select>
+                </td>
+            </tr>
+            <tr>
+                <td class="gray">category</td>
+                <td>
+                    % foreach my $cate ( @{ $category } ) {
+                        <input type="checkbox" name="category" value="<%= $cate->id %>">&nbsp;
+                        <%= $cate->label %><br>
+                    % }
+                </td>
+            </tr>
+        </table>
+        %= submit_button 'Add'
+    % end
+</div>

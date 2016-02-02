@@ -1,0 +1,40 @@
+% layout 'admin_wrapper';
+
+<h2>Category&nbsp;&gt;&nbsp;detail&nbsp;&gt;&nbsp;<%= $self->param( 'id' ) %></h2>
+
+<div id="page-category">
+    <div class="act-link">
+        <%= link_to '/admin/category' => begin %>List<% end %>
+        /
+        <%= link_to '/admin/category/add' => begin %>Add<% end %>
+    </div>
+
+    <table cellspacing="1">
+        <tr>
+            <td class="gray">id</td>
+            <td><%= $category->id %></td>
+        </tr>
+        <tr>
+            <td class="gray">label</td>
+            <td><%= $category->label %></td>
+        </tr>
+        <tr>
+            <td class="gray">status</td>
+            <td>
+                <%= $self->config->{ status_label }->{ $category->status } %>
+            </td>
+        </tr>
+        <tr>
+            <td class="gray">priority</td>
+            <td><%= $category->priority %></td>
+        </tr>
+        <tr>
+            <td class="gray">created_date</td>
+            <td><%= $category->created_date %></td>
+        </tr>
+        <tr>
+            <td class="gray">modified_date</td>
+            <td><%= $category->modified_date %></td>
+        </tr>
+    </table>
+</div>

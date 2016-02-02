@@ -1,0 +1,87 @@
+% layout 'admin_wrapper';
+
+<h2>Affiliate&nbsp;&gt;&nbsp;Edit&nbsp;&gt;&nbsp;<%= $self->param( 'id' ) %></h2>
+
+<div id="page-category">
+    <div class="act-link">
+        <%= link_to '/admin/affiliate' => begin %>List<% end %>
+        /
+        <%= link_to '/admin/affiliate/add' => begin %>Add<% end %>
+    </div>
+
+    % if ( $error ) {
+        <div class="com-error-message">
+            % foreach my $i ( @$error_messages ) {
+                <p><%= $i %></p>
+            % }
+        </div>
+    % }
+
+    %= form_for '/admin/affiliate/edit/' . $self->param( 'id' ) => ( method => 'post' ) => begin
+        <table cellspacing="1">
+            <tr>
+                <td class="gray">id</td>
+                <td><%= $affiliate->id %></td>
+            </tr>
+            <tr>
+                <td class="gray">site_name</td>
+                <td>
+                    %= text_field site_name => $affiliate->site_name
+                </td>
+            </tr>
+            <tr>
+                <td class="gray">status</td>
+                <td>
+                    <select name="status">
+                        % foreach my $status ( @{ $self->config->{ statuses } } ) {
+                            % if ( $self->config->{ status }->{ $status } eq $affiliate->status ) {
+                                <option value="<%= $self->config->{ status }->{ $status } %>" selected><%= $status %></option>
+                            % } else {
+                                <option value="<%= $self->config->{ status }->{ $status } %>"><%= $status %></option>
+                            % }
+                        % }
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td class="gray">priority</td>
+                <td>
+                    <select name="priority">
+                        % foreach my $i ( 1 .. 10) {
+                            % if ( $i == $affiliate->priority ) {
+                                <option value="<%= $i %>" selected><%= $i %></option>
+                            % } else {
+                                <option value="<%= $i %>"><%= $i %></option>
+                            % }
+                        % }
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td class="gray">category</td>
+                <td>
+                    % foreach my $cate ( @{ $category } ) {
+                        % my $checked = '';
+                        % foreach my $affili_cate ( $affiliate->category ) {
+                            % if ( $cate->id eq $affili_cate->id ) {
+                                % $checked = 'checked';
+                                % last;
+                            % }
+                        % }
+                        <input type="checkbox" name="category" value="<%= $cate->id %>" <%= $checked %>>&nbsp;
+                        <%= $cate->label %><br>
+                    % }
+                </td>
+            </tr>
+            <tr>
+                <td class="gray">created_date</td>
+                <td><%= $affiliate->created_date %></td>
+            </tr>
+            <tr>
+                <td class="gray">modified_date</td>
+                <td><%= $affiliate->modified_date %></td>
+            </tr>
+        </table>
+        %= submit_button 'Edit'
+    % end
+</div>

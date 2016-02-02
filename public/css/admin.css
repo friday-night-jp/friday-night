@@ -1,3 +1,27 @@
+*{
+    padding:0;
+    margin:0;
+}
+ul{
+    list-style-position:inside;
+}
+
+table{
+    background-color:#cccccc;
+}
+table th{
+    background-color:#E6E6E6;
+    padding:10px;
+}
+
+table td{
+    background-color:#fff;
+    padding:10px;
+}
+table td.gray{
+    background-color:#E6E6E6;
+}
+
 #com-admin{
     font-size:90%;
     padding:10px;
@@ -10,5 +34,19 @@
 }
 #com-admin h2{
     font-size:100%;
-    padding-bottom:15px;
+    padding:10px 0;
 }
+
+.com-error-message{
+    color:red;
+    margin-bottom:10px;
+}
+
+.com-pager{
+    margin-bottom:5px;
+}
+
+.act-link{
+    margin-bottom:10px;
+}
+

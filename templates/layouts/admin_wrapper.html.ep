@@ -8,7 +8,7 @@
         <h1>
             <%= link_to '/admin' => begin %>Admin<% end %>
             &nbsp;-&nbsp;<%= link_to '/' => begin %><%= $self->app->config->{ 'domain' } %><% end %>
-            % if ( $self->session->{ auth } ) {
+            % if ( $self->admin_session->param( 'auth' ) ) {
                 &nbsp;-&nbsp;<%= link_to '/admin/logout' => begin %>Logout<% end %>
             % }
         </h1>

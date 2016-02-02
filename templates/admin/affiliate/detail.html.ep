@@ -1,0 +1,48 @@
+% layout 'admin_wrapper';
+
+<h2>Affiliate&nbsp;&gt;&nbsp;detail&nbsp;&gt;&nbsp;<%= $self->param( 'id' ) %></h2>
+
+<div id="page-category">
+    <div class="act-link">
+        <%= link_to '/admin/affiliate' => begin %>List<% end %>
+        /
+        <%= link_to '/admin/affiliate/add' => begin %>Add<% end %>
+    </div>
+
+    <table cellspacing="1">
+        <tr>
+            <td class="gray">id</td>
+            <td><%= $affiliate->id %></td>
+        </tr>
+        <tr>
+            <td class="gray">site_name</td>
+            <td><%= $affiliate->site_name %></td>
+        </tr>
+        <tr>
+            <td class="gray">status</td>
+            <td>
+                <%= $self->config->{ status_label }->{ $affiliate->status } %>
+            </td>
+        </tr>
+        <tr>
+            <td class="gray">priority</td>
+            <td><%= $affiliate->priority %></td>
+        </tr>
+        <tr>
+            <td class="gray">category</td>
+            <td>
+                % foreach my $cate ( $affiliate->category ) {
+                    <%= $cate->label %><br>
+                % }
+            </td>
+        </tr>
+        <tr>
+            <td class="gray">created_date</td>
+            <td><%= $affiliate->created_date %></td>
+        </tr>
+        <tr>
+            <td class="gray">modified_date</td>
+            <td><%= $affiliate->modified_date %></td>
+        </tr>
+    </table>
+</div>

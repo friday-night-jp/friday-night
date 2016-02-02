@@ -1,6 +1,9 @@
 package FridayNight::Controller::Admin::Root;
 
 use Mojo::Base 'Mojolicious::Controller';
+#use Mojolicious::Sessions;
+use CGI::Session;
+use Data::Dumper;
 
 sub index {
   my $self = shift;
@@ -11,7 +14,7 @@ sub index {
 sub auth {
     my $self = shift;
 
-    if( $self->session->{ auth } ) {
+    if( $self->admin_session->param( 'auth' ) ) {
           return 1;
     }
     else {
@@ -23,10 +26,12 @@ sub login {
     my $self = shift;
 
     if ( $self->param( 'user' ) && $self->param( 'password' ) ) {
-        $self->app->log->info( "pass check" );
         if ( $self->param( 'user' ) eq $self->config->{ 'admin_account' }->{ 'user' } && 
         $self->param( 'password' ) eq $self->config->{ 'admin_account' }->{ 'password' } ) {
-            $self->session->{ auth } = 1;
+            my $session = CGI::Session->new( undef, undef, { Directory => $self->app->home->rel_file( $self->config->{ admin_session_path } ) } );
+            $session->param( 'auth', 1 );
+            $self->cookie( admin_sessid => $session->id(), { path => '/admin' } );
+
             $self->redirect_to( '/admin' );
         }
     }
@@ -35,7 +40,7 @@ sub login {
 sub logout {
     my $self = shift;
 
-    $self->session->{ auth } = undef;
+    $self->admin_session->delete();
     $self->redirect_to( '/admin' );
 }
 

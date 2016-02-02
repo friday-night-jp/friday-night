@@ -1,0 +1,71 @@
+% layout 'admin_wrapper';
+
+<h2>Category&nbsp;&gt;&nbsp;Edit&nbsp;&gt;&nbsp;<%= $self->param( 'id' ) %></h2>
+
+<div id="page-category">
+    <div class="act-link">
+        <%= link_to '/admin/category' => begin %>List<% end %>
+        /
+        <%= link_to '/admin/category/add' => begin %>Add<% end %>
+    </div>
+
+    % if ( $error ) {
+        <div class="com-error-message">
+            % foreach my $i ( @$error_messages ) {
+                <p><%= $i %></p>
+            % }
+        </div>
+    % }
+
+    %= form_for '/admin/category/edit/' . $self->param( 'id' ) => ( method => 'post' ) => begin
+        <table cellspacing="1">
+            <tr>
+                <td class="gray">id</td>
+                <td><%= $category->id %></td>
+            </tr>
+            <tr>
+                <td class="gray">label</td>
+                <td>
+                    %= text_field label => $category->label
+                </td>
+            </tr>
+            <tr>
+                <td class="gray">status</td>
+                <td>
+                    <select name="status">
+                        % foreach my $status ( @{ $self->config->{ statuses } } ) {
+                            % if ( $self->config->{ status }->{ $status } eq $category->status ) {
+                                <option value="<%= $self->config->{ status }->{ $status } %>" selected><%= $status %></option>
+                            % } else {
+                                <option value="<%= $self->config->{ status }->{ $status } %>"><%= $status %></option>
+                            % }
+                        % }
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td class="gray">priority</td>
+                <td>
+                    <select name="priority">
+                        % foreach my $i ( 1 .. 10) {
+                            % if ( $i == $category->priority ) {
+                                <option value="<%= $i %>" selected><%= $i %></option>
+                            % } else {
+                                <option value="<%= $i %>"><%= $i %></option>
+                            % }
+                        % }
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td class="gray">created_date</td>
+                <td><%= $category->created_date %></td>
+            </tr>
+            <tr>
+                <td class="gray">modified_date</td>
+                <td><%= $category->modified_date %></td>
+            </tr>
+        </table>
+        %= submit_button 'Edit'
+    % end
+</div>

@@ -1,0 +1,50 @@
+% layout 'admin_wrapper';
+
+<h2>Category</h2>
+
+<div id="page-category">
+    <div class="act-link">
+        <%= link_to '/admin/category' => begin %>List<% end %>
+        /
+        <%= link_to '/admin/category/add' => begin %>Add<% end %>
+    </div>
+
+    <div class="com-pager">
+        Total&nbsp;<%= $pager->total_entries() %>&nbsp;
+        % if ( $pager->previous_page() ) {
+            <%= link_to '/admin/category/?p=' . $pager->first_page() => begin %>&nbsp;&lt;&nbsp;<% end %>
+        % }
+        % foreach my $i ( $pager->pages_in_navigation( $self->config->{ admin_page_cols } ) ) {
+            % if ( $i == $pager->current_page() ) {
+                <%= $i %>
+            % }
+            % else {
+                <%= link_to '/admin/category/?p=' . $i => begin %><%= $i %><% end %>
+            % }
+        % }
+        % if ( $pager->next_page() ) {
+            <%= link_to '/admin/category/?p=' . $pager->last_page() => begin %>&nbsp;&gt;&nbsp;<% end %>
+        % }
+    </div>
+
+    <table cellspacing="1">
+        <tr>
+            <th>id</th>
+            <th>label</th>
+            <th>have affiliate</th>
+            <th>act</th>
+        </tr>
+        % while ( my $category = $category->next() ) {
+        <tr>
+            <td><%= $category->id %></td>
+            <td><%= $category->label %></td>
+            <td><%= $category->affiliate %></td>
+            <td>
+                <%= link_to '/admin/category/detail/' . $category->id => begin %>Detail<% end %>&nbsp;
+                <%= link_to '/admin/category/edit/' . $category->id => begin %>Edit<% end %>&nbsp;
+                <%= link_to '/admin/category/delete/' . $category->id => begin %>Delete<% end %>&nbsp;
+            </td>
+        </tr>
+        % }
+    </table>
+</div>
